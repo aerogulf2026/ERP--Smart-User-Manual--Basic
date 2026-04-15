@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ERP Interactive Manager – Help & Info</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0d2a6b;
+      --blue:    #1a4db5;
+      --accent:  #1e6fe8;
+      --light-bg:#f4f7fc;
+      --border:  #dce6f5;
+      --text:    #1c2b4a;
+      --muted:   #5a6a85;
+      --white:   #ffffff;
+      --red:     #c0392b;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light-bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Top nav bar ── */
+    header {
+      background: var(--navy);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(13,42,107,.35);
+    }
+    header .brand {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--white);
+      letter-spacing: .5px;
+    }
+    header .brand span { color: #6fb3ff; }
+    header nav a {
+      color: #a8c8ff;
+      text-decoration: none;
+      font-size: .85rem;
+      margin-left: 1.5rem;
+      transition: color .2s;
+    }
+    header nav a:hover { color: var(--white); }
+
+    /* ── Page wrapper ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* ── Section card ── */
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 2rem 2.2rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 2px 14px rgba(26,77,181,.06);
+      animation: fadeUp .45s ease both;
+    }
+    .card:nth-child(2) { animation-delay: .06s; }
+    .card:nth-child(3) { animation-delay: .12s; }
+    .card:nth-child(4) { animation-delay: .18s; }
+    .card:nth-child(5) { animation-delay: .24s; }
+    .card:nth-child(6) { animation-delay: .30s; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .75rem;
+      padding-bottom: .65rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    p {
+      font-size: .95rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: .5rem;
+    }
+
+    /* ── Bullet lists ── */
+    ul.info-list {
+      list-style: none;
+      margin-top: .9rem;
+    }
+    ul.info-list li {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      margin-bottom: .85rem;
+      font-size: .93rem;
+      line-height: 1.6;
+    }
+    ul.info-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: .45em;
+    }
+    ul.info-list li strong { color: var(--navy); }
+
+    /* ── Role badges ── */
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .9rem;
+      margin-top: 1rem;
+    }
+    @media(max-width: 560px){ .role-grid { grid-template-columns: 1fr; } }
+    .role-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .85rem 1rem;
+      background: var(--light-bg);
+    }
+    .role-card .badge {
+      display: inline-block;
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      padding: .2rem .55rem;
+      border-radius: 20px;
+      margin-bottom: .45rem;
+    }
+    .badge-standard { background: #dbeafe; color: #1e40af; }
+    .badge-power    { background: #d1fae5; color: #065f46; }
+    .badge-readonly { background: #fef3c7; color: #92400e; }
+    .badge-admin    { background: #fce7f3; color: #9d174d; }
+    .role-card p { font-size: .87rem; color: var(--muted); margin: 0; }
+
+    /* ── FAQ ── */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+    }
+    .faq-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .faq-item summary {
+      font-weight: 600;
+      font-size: .97rem;
+      color: var(--navy);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-item summary::after {
+      content: '+';
+      font-size: 1.2rem;
+      color: var(--accent);
+      transition: transform .25s;
+    }
+    details[open] summary::after { transform: rotate(45deg); }
+    .faq-item p { margin-top: .6rem; font-size: .9rem; color: var(--muted); }
+
+    /* ── Contact card ── */
+    .contact-box {
+      background: var(--light-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      margin-top: 1rem;
+    }
+    .contact-box p { font-size: .93rem; margin-bottom: .9rem; color: var(--muted); }
+    .contact-row {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .7rem;
+    }
+    .contact-row:last-child { margin-bottom: 0; }
+    .contact-row .info .name {
+      font-weight: 600;
+      font-size: .95rem;
+      color: var(--navy);
+    }
+    .contact-row .info .email {
+      font-size: .83rem;
+      color: var(--muted);
+    }
+    .contact-row .info .mobile {
+      font-size: .83rem;
+      color: var(--muted);
+      margin-top: .15rem;
+    }
+    .copy-btn {
+      background: var(--light-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .38rem .85rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    .copy-btn:hover { background: var(--navy); color: var(--white); }
+
+    .alt-label {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin: .9rem 0 .5rem;
+    }
+
+    /* ── Back button ── */
+    .back-btn {
+      display: block;
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-align: center;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      letter-spacing: .4px;
+      transition: background .2s, transform .15s;
+    }
+    .back-btn:hover { background: var(--blue); transform: translateY(-1px); }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--navy);
+      color: var(--white);
+      padding: .65rem 1.2rem;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s;
+      z-index: 999;
+    }
+    #toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">ERP <span>Interactive Manager</span></div>
+  <nav>
+    <a href="#">Dashboard</a>
+    <a href="#">Checklists</a>
+    <a href="#">Help</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <!-- Introduction -->
+  <div class="card">
+    <h2>Introduction</h2>
+    <p>Welcome to the ERP Interactive Manager. This application is designed to provide a real-time, interactive platform for executing Emergency Response Plan (ERP) and Emergency Action Plan (EAP) checklists. It ensures that all roles are covered, actions are tracked, and communication is streamlined during an emergency or exercise.</p>
+  </div>
+
+  <!-- Logging In -->
+  <div class="card">
+    <h2>Logging In &amp; User Identity</h2>
+    <p>Upon starting the application, you will be prompted to identify yourself. This is a critical step for accountability and tracking.</p>
+    <ul class="info-list">
+      <li><span><strong>Enter Your Details:</strong> You must enter your name or employee number in the first field.</span></li>
+      <li><span><strong>Select Your Role:</strong> Choose the role that reflects your function in the current emergency or drill from the dropdown menu.</span></li>
+      <li><span><strong>User Association:</strong> All your actions (completing tasks, adding notes) will be logged against your name and role.</span></li>
+    </ul>
+  </div>
+
+  <!-- How to Use -->
+  <div class="card">
+    <h2>How to Use the Application</h2>
+    <ul class="info-list">
+      <li><span><strong>Select a Checklist:</strong> Use the sidebar to find and select the checklist for a specific role.</span></li>
+      <li><span><strong>Complete Tasks:</strong> Mark tasks complete to log them with a timestamp.</span></li>
+      <li><span><strong>Add Notes &amp; Fill Forms:</strong> Use the text area below each task to add relevant notes.</span></li>
+      <li><span><strong>Join the CMC Video Conference:</strong> Use the red button for immediate 24/7 access to the Google Meet conference.</span></li>
+    </ul>
+  </div>
+
+  <!-- Roles & Permissions -->
+  <div class="card">
+    <h2>Roles &amp; Permissions</h2>
+    <p>Your ability to interact with checklists is determined by the role you select at login.</p>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="badge badge-standard">Standard</div>
+        <p>Can only edit checklists that match their job function.</p>
+      </div>
+      <div class="role-card">
+        <div class="badge badge-power">Power User</div>
+        <p>Accountable/Safety Manager — elevated permissions to edit any task on any checklist.</p>
+      </div>
+      <div class="role-card">
+        <div class="badge badge-readonly">Read-Only</div>
+        <p>DP Representative — for observation purposes only; cannot make changes.</p>
+      </div>
+      <div class="role-card">
+        <div class="badge badge-admin">Administrator</div>
+        <p>Safety Manager — can reset all application data after an exercise is concluded.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="card">
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <details class="faq-item">
+      <summary>What happens if I go offline?</summary>
+      <p>The app works offline. Changes are saved to your device and sync automatically once you are back online. A yellow banner will appear when offline.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Can I use this on my phone or tablet?</summary>
+      <p>Yes, the application is fully responsive and works on desktops, tablets, and smartphones.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Who can see the notes and task updates I make?</summary>
+      <p>All data is synced in real-time. Any user with access can see the updates, ensuring team-wide situational awareness.</p>
+    </details>
+  </div>
+
+  <!-- Support & Contact -->
+  <div class="card">
+    <h2>Support &amp; Contact</h2>
+    <div class="contact-box">
+      <p>For any questions, technical issues, or suggestions, please do not hesitate to reach out.</p>
+
+      <div style="font-size:.82rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem;">Direct Contact (Safety Manager)</div>
+      <div class="contact-row">
+        <div class="info">
+          <div class="name">Mr. Thondickara Aboobackar</div>
+          <div class="email">t.aboobackar@aerogulf.ae</div>
+          <div class="mobile">Mobile: +971 50 994 3894</div>
+        </div>
+        <button class="copy-btn" onclick="copyText('t.aboobackar@aerogulf.ae', this)">Copy Email</button>
+      </div>
+
+      <div class="alt-label">Alternative Support Emails</div>
+      <div class="contact-row">
+        <div class="info">
+          <div class="email" style="color:var(--text);font-size:.92rem;">safetycommunication@aerogulf.ae</div>
+        </div>
+        <button class="copy-btn" onclick="copyText('safetycommunication@aerogulf.ae', this)">Copy</button>
+      </div>
+      <div class="contact-row">
+        <div class="info">
+          <div class="email" style="color:var(--text);font-size:.92rem;">v.vadakkath@aerogulf.ae</div>
+        </div>
+        <button class="copy-btn" onclick="copyText('v.vadakkath@aerogulf.ae', this)">Copy</button>
+      </div>
+    </div>
+
+    <button class="back-btn" onclick="alert('Navigating to Main Page…')">Back to Main Page</button>
+  </div>
+
+</div><!-- /page -->
+
+<div id="toast">Copied to clipboard!</div>
+
+<script>
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied';
+      setTimeout(() => {
+        toast.classList.remove('show');
+        btn.textContent = orig;
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
